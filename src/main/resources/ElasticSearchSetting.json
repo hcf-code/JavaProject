@@ -1,0 +1,29 @@
+{
+  "analysis": {
+    "analyzer": {
+      "name_analyzer": {
+        "tokenizer": "name_tokenizer"
+      }
+    },
+    "tokenizer": {
+      "name_tokenizer": {
+        "type": "ngram",
+        "min_gram": 1,
+        "max_gram": 3,
+        "token_chars": [
+          "letter",
+          "digit"
+        ]
+      }
+    }
+  },
+  "index.analysis.analyzer.default.type": "ik_max_word",
+  "index.max_ngram_diff": 4,
+  "max_result_window": 20000,
+  "number_of_replicas": 1,
+  "refresh_interval": "10s",
+  "index.translog.durability": "async",
+  "index.translog.sync_interval": "5s",
+  "index.merge.scheduler.max_thread_count":2,
+  "number_of_shards" : 3
+}
