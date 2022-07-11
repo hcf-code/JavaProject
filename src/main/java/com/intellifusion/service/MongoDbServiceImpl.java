@@ -41,7 +41,7 @@ public class MongoDbServiceImpl extends ServiceImpl<PostgreMapper, PersonRecordE
 
 
     static {
-        threadPoolExecutor = new ThreadPoolExecutor(20, 205, 60, TimeUnit.SECONDS, new LinkedBlockingDeque<>());
+        threadPoolExecutor = new ThreadPoolExecutor(100, 205, 60, TimeUnit.SECONDS, new LinkedBlockingDeque<>());
     }
 
     @Autowired
@@ -126,8 +126,8 @@ public class MongoDbServiceImpl extends ServiceImpl<PostgreMapper, PersonRecordE
 
     //随机生成时间戳
     public long randomDate() {
-        long start = Timestamp.valueOf("2021-01-01 00:00:00").getTime();
-        long end = Timestamp.valueOf("2021-10-15 00:00:00").getTime();
+        long start = Timestamp.valueOf("2020-01-01 00:00:00").getTime();
+        long end = Timestamp.valueOf("2021-12-20 00:00:00").getTime();
         return (long) ((end - start) * Math.random() + start);
     }
 
@@ -141,7 +141,7 @@ public class MongoDbServiceImpl extends ServiceImpl<PostgreMapper, PersonRecordE
       * @param tail
      * @return
      */
-    public static String separate(char[] source, String tmp, int head, int tail) {
+    public String separate(char[] source, String tmp, int head, int tail) {
         if (head == source.length-1 && tail == source.length)
             return tmp;
         if (tail == source.length)
@@ -155,7 +155,7 @@ public class MongoDbServiceImpl extends ServiceImpl<PostgreMapper, PersonRecordE
 
     public static void main(String[] args) throws Exception {
         String hcf = "韩长峰";
-        System.out.println(separate(hcf.toCharArray(), "", 0, 0));
+        System.out.println();
     }
 
         //Segment segment = HanLP.newSegment().enableNameRecognize(true);

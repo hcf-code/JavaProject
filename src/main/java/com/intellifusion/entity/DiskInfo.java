@@ -1,13 +1,12 @@
 package com.intellifusion.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
+import org.springframework.stereotype.Service;
 
 @AllArgsConstructor
 @ToString
 @Getter
+@Setter
 public class DiskInfo {
     //文件系统
     String fileSystem;

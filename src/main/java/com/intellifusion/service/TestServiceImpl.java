@@ -3,10 +3,7 @@ package com.intellifusion.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.intellifusion.entity.PersonRecordEntity;
-import com.intellifusion.entity.PersonRecordEntityES;
-import com.intellifusion.entity.RandInfo;
-import com.intellifusion.entity.TestEntity;
+import com.intellifusion.entity.*;
 import com.intellifusion.mapper.TestMapper;
 import com.intellifusion.repository.TestRepository;
 import org.elasticsearch.action.delete.DeleteRequest;
@@ -34,6 +31,9 @@ import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @Service
@@ -51,6 +51,9 @@ public class TestServiceImpl extends ServiceImpl<TestMapper, TestEntity> impleme
 
     @Autowired
     ElasticsearchOperations elasticsearchOperations;
+
+
+
 
     @Override
     public TestEntity TestHcf(Long id) {
@@ -155,5 +158,41 @@ public class TestServiceImpl extends ServiceImpl<TestMapper, TestEntity> impleme
 
         return  search.getSearchHits().stream().map(SearchHit::getContent).collect(Collectors.toList());
     }
+
+    public static DiskInfo hcf() throws ExecutionException, InterruptedException {
+        DiskInfo diskInfo;
+        Thread.sleep(100);
+        System.out.println("woaini");
+        CompletableFuture<String> async = CompletableFuture.supplyAsync(() -> {
+            System.out.println("子线程1");
+            return "3000MB";
+        });
+
+        CompletableFuture<String> async2 = CompletableFuture.supplyAsync(() -> {
+            System.out.println("子线程2");
+            return "hcf";
+        });
+
+        diskInfo = new DiskInfo("macOs","500GB","200GB","300GB","40%","wwww");
+
+
+        String mount = async2.get();
+        diskInfo.setMountedOn(mount);
+
+        String total = async.get();
+        diskInfo.setTotalSize(total);
+
+        System.out.println("抓线程100");
+
+        return diskInfo;
+    }
+
+//    public static void main(String[] args) throws ExecutionException, InterruptedException {
+//        for (int i = 0; i <100; i++) {
+//            DiskInfo hcf = hcf();
+//            System.out.println(hcf);
+//        }
+//
+//    }
 
 }

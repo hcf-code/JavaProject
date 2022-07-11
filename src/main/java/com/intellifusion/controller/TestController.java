@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.intellifusion.entity.TestEntity;
+import com.intellifusion.service.PersonLikeSearch;
 import com.intellifusion.service.TestService;
 import io.netty.util.internal.shaded.org.jctools.queues.MpscArrayQueue;
 import io.netty.util.internal.shaded.org.jctools.queues.atomic.MpscAtomicArrayQueue;
@@ -102,6 +103,22 @@ public class TestController {
 //        }
 //        //返回null代表未找到挂载的硬盘
         return null;
+    }
+
+
+    public static PersonLikeSearch<Integer> likeSearch = new PersonLikeSearch<>();
+
+    @RequestMapping(value = "init")
+    public void initTestData(){
+        likeSearch.put(1,"hcf");
+        likeSearch.put(2,"cf");
+        likeSearch.put(1,"ch");
+    }
+
+
+    @RequestMapping(value = "search/{word}")
+    public Object search(@PathVariable String word){
+        return likeSearch.search(word,2);
     }
 
 }

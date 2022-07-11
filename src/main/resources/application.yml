@@ -2,10 +2,10 @@ server:
   port: 8000
 spring:
   datasource:
-    #url: jdbc:mysql://106.15.251.229:3306/hcf?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
-    url: jdbc:postgresql://192.168.12.219:5432/postgres?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
-    password: postgres
-    username: postgres
+    url: jdbc:mysql://106.15.251.229:3306/hcf?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    #url: jdbc:postgresql://192.168.12.219:5435/postgres?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    password: 19961011
+    username: root
   elasticsearch:
     rest:
       uris: http://192.168.12.219:9200,http://192.168.12.218:9200,http://192.168.12.217:9200
@@ -14,12 +14,16 @@ spring:
     mongodb:
       #uri: mongodb://192.168.12.217:27200,192.168.12.218:27200,192.168.12.219:27200/vesionbook?retryWrites=false
       uri: mongodb://106.15.251.229:27017/hcf?retryWrites=false
-
 logging:
   level:
     root: warn
   config: src/main/resources/logback.xml
 
+minio:
+  endpoint: http://1.117.70.123:9000
+  accessKey: hcf
+  secretKey: 19961011
+  bucketName: hcf
 
 fdfs:
   so-timeout: 1500
