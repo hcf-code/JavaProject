@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 /**
@@ -21,7 +22,7 @@ import java.util.Map;
 @RequestMapping("/minio")
 public class MinIoController {
 
-
+    @Autowired
     MinIoService minIoService;
 
     @RequestMapping("/upload")
@@ -38,9 +39,12 @@ public class MinIoController {
     @Autowired
     ApplicationContext applicationContext;
 
+
     @RequestMapping("/test")
-    public void test(){
-        Map<String, MinIoService> beansOfType = applicationContext.getBeansOfType(MinIoService.class);
-        beansOfType.values().forEach(MinIoService::test);
+    public void test(HttpServletRequest request) throws Exception {
+
+        System.out.println(applicationContext.getBean("&test"));
+
     }
+
 }

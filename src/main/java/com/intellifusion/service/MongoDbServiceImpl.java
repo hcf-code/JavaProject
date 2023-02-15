@@ -11,6 +11,7 @@ import com.intellifusion.entity.PersonRecordEntity;
 import com.intellifusion.entity.PersonRecordEntityES;
 import com.intellifusion.entity.RandInfo;
 import com.intellifusion.mapper.PostgreMapper;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -41,7 +42,7 @@ public class MongoDbServiceImpl extends ServiceImpl<PostgreMapper, PersonRecordE
 
 
     static {
-        threadPoolExecutor = new ThreadPoolExecutor(100, 205, 60, TimeUnit.SECONDS, new LinkedBlockingDeque<>());
+        threadPoolExecutor = new ThreadPoolExecutor(3, 4, 60, TimeUnit.SECONDS, new LinkedBlockingDeque<>());
     }
 
     @Autowired
@@ -54,6 +55,35 @@ public class MongoDbServiceImpl extends ServiceImpl<PostgreMapper, PersonRecordE
     public void selectOne() {
         List<PersonRecordEntity> recordEntity = mongoTemplate.findAll(PersonRecordEntity.class);
         System.out.println(recordEntity);
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        each();
+    }
+
+    public static void each() throws InterruptedException {
+        ArrayList<Integer> list = new ArrayList<>();
+        for (int i = 0; i < 20; i++) {
+            list.add(i);
+        }
+        CountDownLatch countDownLatch = new CountDownLatch(2);
+        for (int i = 0; i < list.size(); i++) {
+            int finalI = i;
+            Runnable runnable = () -> new MongoDbServiceImpl().each2(Thread.currentThread(), countDownLatch, finalI);
+            threadPoolExecutor.execute(runnable);
+        }
+        countDownLatch.await();
+        System.out.println("总任务执行结束!");
+        threadPoolExecutor.shutdown();
+    }
+
+    public void each2(Thread thread, CountDownLatch countDownLatch,int i){
+        try {
+            System.out.println(thread.getName());
+            System.out.println(i);
+        } finally {
+            countDownLatch.countDown();
+        }
     }
 
 
@@ -153,10 +183,6 @@ public class MongoDbServiceImpl extends ServiceImpl<PostgreMapper, PersonRecordE
         return tmp;
     }
 
-    public static void main(String[] args) throws Exception {
-        String hcf = "韩长峰";
-        System.out.println();
-    }
 
         //Segment segment = HanLP.newSegment().enableNameRecognize(true);
         //System.out.println(segment.seg("韩长峰"));
